@@ -1,8 +1,6 @@
 <div align="center">
 
-  <img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/%5Bred%5D%20Full%20Color.svg" width="300" alt="Laravel Logo">
-
-  # 🛍️ Katalog Produk Toko Del
+  # 🛍️ Katalog Produk Toko Del 
 
   <p align="center">
     Sistem Manajemen Katalog Produk berbasis Laravel 11 MVC dengan integrasi database MySQL via Laragon, validasi form, paginasi, dan tampilan responsif Bootstrap 5.
