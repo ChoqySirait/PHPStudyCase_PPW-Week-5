@@ -2,41 +2,28 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Product; // Mengimpor Model Product untuk akses query database[cite: 8]
-use Illuminate\Http\Request;
-use Illuminate\View\View; // Memastikan kembalian berupa tampilan Blade[cite: 8]
-use Illuminate\Http\RedirectResponse; // Memastikan kembalian berupa pengalihan URL[cite: 8]
+use App\Models\Product;
+use App\Http\Requests\StoreProductRequest; // Mengimpor Form Request khusus validasi[cite: 11]
+use Illuminate\View\View;
+use Illuminate\Http\RedirectResponse;
 
 class ProductController extends Controller
 {
-    /**
-     * Menampilkan daftar produk terpaginasi[cite: 8].
-     */
     public function index(): View
     {
-        // Mengambil produk terbaru dan membaginya 10 data per halaman[cite: 8]
         $products = Product::latest()->paginate(10);
-
-        // Mengirimkan variabel data produk ke tampilan products/index.blade.php[cite: 8]
         return view('products.index', compact('products'));
     }
 
     /**
-     * Memvalidasi dan menyimpan rekaman produk baru[cite: 8].
+     * Memvalidasi otomatis via StoreProductRequest sebelum menyimpan produk.
      */
-    public function store(Request $request): RedirectResponse
+    public function store(StoreProductRequest $request): RedirectResponse
     {
-        // Memvalidasi data inputan sesuai aturan batasan karakter dan tipe data[cite: 8]
-        $valid = $request->validate([
-            'kode'  => 'required|unique:products|max:10',
-            'nama'  => 'required|min:3',
-            'harga' => 'required|numeric|min:1000',
-        ]);
+        // Menyimpan data yang telah lolos validasi otomatis[cite: 8, 11]
+        Product::create($request->validated());
 
-        // Menyimpan data terverifikasi ke tabel products via Eloquent[cite: 8]
-        Product::create($valid);
-
-        // Mengalihkan pengguna kembali ke rute indeks produk[cite: 8]
+        // Mengalihkan kembali ke rute indeks (Pola PRG: Post-Redirect-Get)[cite: 8, 12]
         return redirect()->route('products.index');
     }
 }
