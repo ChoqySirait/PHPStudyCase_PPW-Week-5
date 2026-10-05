@@ -2,11 +2,13 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Product extends Model
 {
-    // Menentukan daftar kolom yang diizinkan untuk diisi secara langsung/massal (Mass Assignment)[cite: 6]
+    use HasFactory; // Mengaktifkan fitur generasi data dummy via factory
+
     protected $fillable = [
         'kode',
         'nama',
